@@ -53,19 +53,24 @@ class ClassificationData(BaseDataset):
         f = open(label_file, 'r')
         lines = f.readlines()
 
-        for target in sorted(os.listdir(dir)):
-            d = os.path.join(dir, target)
-            if not os.path.isdir(d):
+        # for target in sorted(os.listdir(dir)):
+        #     d = os.path.join(dir, target)
+        #     if not os.path.isdir(d):
+        #         continue
+        #     for root, _, fnames in sorted(os.walk(d)):
+                # for fname in sorted(fnames):
+                    # if is_mesh_file(fname) and (root.count(phase)==1):
+
+        mesh_dir = os.path.join(dir, phase)
+        for fname in sorted(os.listdir(mesh_dir)):
+            if not fname.endswith('obj'):
                 continue
-            for root, _, fnames in sorted(os.walk(d)):
-                for fname in sorted(fnames):
-                    if is_mesh_file(fname) and (root.count(phase)==1):
-                        path = os.path.join(root, fname)
-                        # item = (path, class_to_idx[target])
-                        idx = int(fname.split('.')[0])
-                        # print(fname, idx)
-                        label = int(lines[idx-1].split(',')[1])
-                        # print(label)
-                        item = (path, label)
-                        meshes.append(item)
+            path = os.path.join(mesh_dir, fname)
+            # item = (path, class_to_idx[target])
+            idx = int(fname.split('.')[0])
+            # print(fname, idx)
+            label = int(lines[idx-1].split(',')[1])
+            # print(label)
+            item = (path, label)
+            meshes.append(item)
         return meshes

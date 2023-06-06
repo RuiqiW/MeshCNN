@@ -8,7 +8,7 @@ import trimesh
 
 # RAND = True
 PREFIX = 'train'
-mesh_dir = '../{}_meshMNIST/test/'.format(PREFIX)
+mesh_dir = '../{}_meshMNIST/val/'.format(PREFIX)
 output_dir = '../{}_mesh/val/'.format(PREFIX)
 # rot_mat_dir = '../data/{}_rotations'.format(PREFIX)
 
@@ -52,8 +52,9 @@ for filename in os.listdir(mesh_dir):
 
     mesh = o3d.io.read_triangle_mesh(f)
     mesh_smp = mesh.simplify_quadric_decimation(target_number_of_triangles=480)
-    mesh_smp_2 = mesh.simplify_quadric_decimation(target_number_of_triangles=180)
-    if not mesh_smp.is_watertight() or not mesh_smp_2.is_watertight():
+    # mesh_smp_2 = mesh.simplify_quadric_decimation(target_number_of_triangles=180)
+    # if not mesh_smp.is_watertight() or not mesh_smp_2.is_watertight():
+    if not mesh_smp.is_watertight():
         id = int(name)
         label = int(lines[id-1].split(',')[1])
         count[label] += 1

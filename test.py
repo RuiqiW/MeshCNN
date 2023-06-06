@@ -9,6 +9,9 @@ def run_test(epoch=-1):
     opt = TestOptions().parse()
     opt.serial_batches = True  # no shuffle
     dataset = DataLoader(opt)
+    dataset_size = len(dataset)
+    print('#testing meshes = %d' % dataset_size)
+
     model = create_model(opt)
     writer = Writer(opt)
     # test
