@@ -8,8 +8,8 @@ import trimesh
 
 # RAND = True
 PREFIX = 'train'
-mesh_dir = '../{}_meshMNIST/val/'.format(PREFIX)
-output_dir = '../{}_mesh/val/'.format(PREFIX)
+mesh_dir = '../{}_meshMNIST/train/'.format(PREFIX)
+output_dir = '../{}_mesh/train/'.format(PREFIX)
 # rot_mat_dir = '../data/{}_rotations'.format(PREFIX)
 
 
@@ -22,7 +22,7 @@ lines = f.readlines()
 
 count = np.zeros(10)
 
-
+num_faces = 0
 for filename in os.listdir(mesh_dir):
     name, suffix = filename.split('.')
     
@@ -52,17 +52,12 @@ for filename in os.listdir(mesh_dir):
 
     mesh = o3d.io.read_triangle_mesh(f)
     mesh_smp = mesh.simplify_quadric_decimation(target_number_of_triangles=480)
-    # mesh_smp_2 = mesh.simplify_quadric_decimation(target_number_of_triangles=180)
-    # if not mesh_smp.is_watertight() or not mesh_smp_2.is_watertight():
     if not mesh_smp.is_watertight():
         id = int(name)
         label = int(lines[id-1].split(',')[1])
         count[label] += 1
         continue
 
-    # # if not mesh_smp.is_watertight():
-    # #     print(idx)
-    # #     continue
     # # print(
     # #     f'Simplified mesh has {len(mesh_smp.vertices)} vertices and {len(mesh_smp.triangles)} triangles'
     # # )
